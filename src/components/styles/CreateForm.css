@@ -1,0 +1,49 @@
+.createForm {
+    width: 40vw;
+    margin: 0 auto;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.createForm label {
+
+    font-size: 1.5rem;
+    line-height: 4rem;
+
+    margin-right: 2rem;
+}
+
+.createForm div {
+    width: 100%;
+
+    display: flex;
+    justify-content: flex-end;
+
+    margin: 0.5rem;
+}
+
+@media (max-width: 1280px)
+{
+    .createForm {
+        max-width: 70vw;
+    }
+
+    input, label {
+
+        font-size: 1rem;
+
+        line-height: 2rem;
+
+    }    
+
+}
+
+@media (max-width: 1024px)
+{
+    .createForm {
+        max-width: 90vw;
+    }
+}
