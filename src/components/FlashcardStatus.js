@@ -12,17 +12,17 @@ const StyledIntroText = styled.p`
 // gets a list of all classes from the database
 const FlashcardStatus = () => {
 
-    const [totalCategories, setTotalCategories] = useState(undefined);
+    const [flashcards, setFlashcards] = useState(undefined);
 
     useEffect(() => {
 
         axiosWithAuth()
-        .get("/categories")
+        .get("/flashcards")
         .then(
             response => {
 
-                console.log("Database response:", response);
-                setTotalCategories(response.data.length);
+                console.log("Database response:", response.data);
+                setFlashcards(response.data);
             }
         )
         .catch(
@@ -31,13 +31,16 @@ const FlashcardStatus = () => {
 
     }, []);
 
-    if (totalCategories === undefined)
+    if (flashcards === undefined)
         {
-            return (<StyledIntroText>{"Searching for classes..."}</StyledIntroText>);
+            return (<StyledIntroText>{"Searching for flashcards..."}</StyledIntroText>);
         }
-
-    return (<StyledIntroText>{"Browse all the classes from " + totalCategories + " different categories, or search to narrow down your selection."}</StyledIntroText>);
-
+    return (
+        <div>
+        <StyledIntroText>{flashcards.frontCard}</StyledIntroText>
+        <StyledIntroText>{flashcards.backCard}</StyledIntroText>
+        </div>
+        );
 }
 
 export default FlashcardStatus;

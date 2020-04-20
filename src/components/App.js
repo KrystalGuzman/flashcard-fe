@@ -4,8 +4,7 @@ import FlashcardHeader from "./FlashcardHeader";
 import styled, { keyframes, css } from 'styled-components';
 import ReactCardFlip from 'react-card-flip';
 import Card from './Card';
-import DeckApi from '../api/DeckApi';
-import Flashcard from '../api/Flashcard';
+import { axiosWithAuth } from "../utils/axiosWithAuth";
 
 import * as animations from 'react-animations';
 
@@ -69,14 +68,15 @@ export default class App extends Component {
 		this.handleRandomCard = this.handleRandomCard.bind(this);
 	}
 
-	componentDidMount(){
-		DeckApi.getCards().then((cards) =>{
-			this.setState({
-				isLoading: false,
-				cards: [...cards]
-			})
-		});
-	}
+	componentDidMount() {
+		axiosWithAuth()
+		.get("/flashcards").then(res => {
+			const cards = res.data;
+			this.setState({ isLoading: false,
+				cards: [...cards] });
+			console.log(cards)
+		  })
+	  }
 
 	handleFlip(){
 		this.setState({
@@ -127,7 +127,6 @@ export default class App extends Component {
 				<Container>
 					{this.state.isLoading ? this.renderLoading() : this.renderCard()}
 				</Container>
-				<Flashcard/>
 			</AppStyled>
 		)
 	}
@@ -138,8 +137,8 @@ export default class App extends Component {
 			<FixedDeckEffect>
 				<BouncyDiv animation={this.state.animation}>
 					<ReactCardFlip isFlipped={this.state.isFlipped} flipDirection="vertical">
-						<Card key="front" onFlip={this.handleFlip}>{card.question}</Card>
-						<Card key="back" onFlip={this.handleFlip}>{card.answer}</Card>
+						<Card key="front" onFlip={this.handleFlip}>{card.frontCard}</Card>
+						<Card key="back" onFlip={this.handleFlip}>{card.backCard}</Card>
 					</ReactCardFlip>
 				</BouncyDiv>
 			</FixedDeckEffect>
